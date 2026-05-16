@@ -1,5 +1,6 @@
 int r1, g1, b1, r2, g2, b2, hue1, hue2;
 float distance;
+float distancel;
 int black1 = 12;
 int white1 = 100;
 int black2 = 8;
@@ -41,6 +42,22 @@ void follow_line()
 
 }
 
+void ball_room()
+{
+	float maxld=5, maxfd=2;
+	move_forward(50,15);
+	if(distancel>maxld)
+	{
+		turn(350,4-,-40);
+		move_forward(200,15);
+	}
+	
+	while((detect_black_left() || detect_black_right()) == false)
+	{
+
+	}
+}
+
 bool detect_green_right()
 {
 	return (r1 >= r1_green - margin && r1 <= r1_green + margin &&
@@ -53,6 +70,20 @@ bool detect_green_left()
 	return (r2 >= r2_green - margin && r2 <= r2_green + margin &&
 	g2 >= g2_green - margin && g2 <= g2_green + margin &&
 	hue2 >= hue2_green - margin_hue && hue2 <= hue2_green + margin_hue);
+}
+
+bool detect_silver_right()
+{
+	return (r1 >= r1_silver - margin && r1 <= r1_silver + margin &&
+	g1 >= g1_silver - margin && g1 <= g1_silver + margin && 
+	b1 >= b1_silver - margin && b1 <= b1_silver+margin);
+}
+
+bool detect_silver_left()
+{
+	return (r2 >= r2_silver - margin && r2 <= r1_silver + margin &&
+	g2 >= g2_silver - margin && g2 <= g2_silver + margin && 
+	b2 >= b2_silver - margin && b2 <= b2_silver + margin);
 }
 
 bool detect_red_right()
@@ -100,19 +131,19 @@ void avoid_obstacle()
 	motor[motorA] = 0;
 	motor[motorB] = 0;
 	delay(100);
-	turn(400,30,-30);
+	turn(400,40,-40);
 	delay(100);
 	move_forward(1000,40);
 	delay(100);
-	turn(400,-30,30);
+	turn(400,-40,40);
 	delay(100);
 	move_forward(1000,40);
 	delay(100);
-	turn(400,-30,30);
+	turn(400,-40,40);
 	delay(100);
 	move_forward(1000,40);
 	delay(100);
-	turn(400,30,-30);
+	turn(400,40,-0);
 	delay(100);
 	move_forward(100,40);
 }
@@ -126,6 +157,7 @@ task refresh_sensors()
 		hue1 = getColorHue(S1);
 		hue2 = getColorHue(S2);
 		distance = getUSDistance(S3);
+		distancel = getUSDistance(S4);
 	}
 }
 
@@ -135,15 +167,16 @@ task main()
 
 	while(true)
 	{
-		if (detect_red_left() && detect_red_right())
+		if (detect_red_left() || detect_red_right())
 		{
 			motor[motorA] = 0;
 			motor[motorB] = 0;
 			break;
 		}
-		/*else if ()
+		else if(detect_silver_left() && detect_silver_right())
 		{
-		}*/
+			ball_room();
+		}
 		else if(distance <= 10)
 		{
 			avoid_obstacle();
