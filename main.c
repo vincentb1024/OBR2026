@@ -44,17 +44,30 @@ void follow_line()
 
 void ball_room()
 {
-	float maxld=5, maxfd=2;
+	float maxld=15, maxfd=5;
 	move_forward(50,15);
 	if(distancel>maxld)
 	{
-		turn(350,4-,-40);
-		move_forward(200,15);
+		turn(350,40,-40);
+		move_forward(100,15);
 	}
 	
 	while((detect_black_left() || detect_black_right()) == false)
 	{
-
+		if(distance<maxfd)
+		{
+			turn(50,-40,40);
+		}
+		else
+		{
+			move_forward(20,15);
+		}
+		if(distancel>maxld)
+		{
+			turn(350,40,-40);
+			move_forward(50,15);
+		}
+	
 	}
 }
 
