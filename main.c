@@ -26,6 +26,14 @@ int r2_red = 65;
 int g2_red = 15;
 int hue2_red = 5;
 
+int r1_silver = 110;
+int g1_silver = 110;
+int b1_silver = 110;
+
+int r2_silver = 110;
+int g2_silver = 110;
+int b2_silver = 110;
+
 int margin = 15;
 int margin_hue = 18;
 
