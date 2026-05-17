@@ -2,7 +2,7 @@
 - Follow Line **DONE**
 - Crossroads/Green Handling **DONE**
 - Gap Handling **DONE**
-- Ballroom traversion **WIP**
+- Ballroom traversion **TESTING**
 - Red Line **DONE**
 - Obstacle Handling **DONE**
 *- Basic robot structure* **DONE**
