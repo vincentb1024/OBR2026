@@ -124,28 +124,28 @@ void move_forward(int degrees, int pot)
 }
 
 void avoid_obstacle()
-{	
+{
 	stop();
 	delay(100);
-	turn(450,40,-40);
+	turn(480,40,-40);
 	stop();
 	delay(100);
 	move_forward(410,40);
 	stop();
 	delay(100);
-	turn(510,-40,40);
+	turn(480,-40,40);
 	stop();
 	delay(100);
 	move_forward(770,40);
 	stop();
 	delay(100);
-	turn(450,-40,40);
+	turn(480,-40,40);
 	stop();
 	delay(100);
 	move_forward(345,40);
 	stop();
 	delay(100);
-	turn(450,40,-40);
+	turn(480,40,-40);
 	stop();
 	delay(100);
 	move_forward(100,40);
