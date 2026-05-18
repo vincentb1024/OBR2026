@@ -34,9 +34,14 @@ int r2_silver = 110;
 int g2_silver = 110;
 int b2_silver = 110;
 
-int margin = 15;
-int margin_hue = 18;
+int margin = 10;
+int margin_hue = 15;
 
+void stop()
+{
+	motor[motorA] = 0;
+	motor[motorB] = 0;
+}
 
 void follow_line()
 {
@@ -48,35 +53,6 @@ void follow_line()
 	motor[motorB] = 30 - (error * kp) + ((error - lastError) * kd);
 	lastError = error;
 
-}
-
-void ball_room()
-{
-	float maxld=15, maxfd=5;
-	move_forward(50,15);
-	if(distancel>maxld)
-	{
-		turn(350,40,-40);
-		move_forward(100,15);
-	}
-	
-	while((detect_black_left() || detect_black_right()) == false)
-	{
-		if(distance<maxfd)
-		{
-			turn(50,-40,40);
-		}
-		else
-		{
-			move_forward(20,15);
-		}
-		if(distancel>maxld)
-		{
-			turn(350,40,-40);
-			move_forward(50,15);
-		}
-	
-	}
 }
 
 bool detect_green_right()
@@ -96,14 +72,14 @@ bool detect_green_left()
 bool detect_silver_right()
 {
 	return (r1 >= r1_silver - margin && r1 <= r1_silver + margin &&
-	g1 >= g1_silver - margin && g1 <= g1_silver + margin && 
+	g1 >= g1_silver - margin && g1 <= g1_silver + margin &&
 	b1 >= b1_silver - margin && b1 <= b1_silver+margin);
 }
 
 bool detect_silver_left()
 {
 	return (r2 >= r2_silver - margin && r2 <= r1_silver + margin &&
-	g2 >= g2_silver - margin && g2 <= g2_silver + margin && 
+	g2 >= g2_silver - margin && g2 <= g2_silver + margin &&
 	b2 >= b2_silver - margin && b2 <= b2_silver + margin);
 }
 
@@ -131,7 +107,7 @@ bool detect_black_left()
 	return(r2 <= black2 + 10);
 }
 
-void turn(int degrees, int potA, int potB)
+void turn(int degrees, int potB, int potA)
 {
 	moveMotorTarget(motorA,degrees,potA);
 	moveMotorTarget(motorB,degrees,potB);
@@ -148,23 +124,29 @@ void move_forward(int degrees, int pot)
 }
 
 void avoid_obstacle()
-{
-	motor[motorA] = 0;
-	motor[motorB] = 0;
+{	
+	stop();
 	delay(100);
-	turn(400,40,-40);
+	turn(450,40,-40);
+	stop();
 	delay(100);
-	move_forward(1000,40);
+	move_forward(410,40);
+	stop();
 	delay(100);
-	turn(400,-40,40);
+	turn(510,-40,40);
+	stop();
 	delay(100);
-	move_forward(1000,40);
+	move_forward(770,40);
+	stop();
 	delay(100);
-	turn(400,-40,40);
+	turn(450,-40,40);
+	stop();
 	delay(100);
-	move_forward(1000,40);
+	move_forward(345,40);
+	stop();
 	delay(100);
-	turn(400,40,-0);
+	turn(450,40,-40);
+	stop();
 	delay(100);
 	move_forward(100,40);
 }
@@ -179,8 +161,38 @@ task refresh_sensors()
 		hue2 = getColorHue(S2);
 		distance = getUSDistance(S3);
 		distancel = getUSDistance(S4);
+		delay(10);
 	}
 }
+void ball_room()
+{
+	float maxld=15, maxfd=5;
+	move_forward(50,15);
+	if(distancel>maxld)
+	{
+		turn(450,40,-40);
+		move_forward(100,15);
+	}
+
+	while((detect_black_left() || detect_black_right()) == false)
+	{
+		if(distance<maxfd)
+		{
+			turn(50,-40,40);
+		}
+		else
+		{
+			move_forward(20,15);
+		}
+		if(distancel>maxld)
+		{
+			turn(450,40,-40);
+			move_forward(50,15);
+		}
+
+	}
+}
+
 
 task main()
 {
@@ -198,7 +210,7 @@ task main()
 		{
 			ball_room();
 		}
-		else if(distance <= 10)
+		else if(distance <= 6)
 		{
 			avoid_obstacle();
 		}
@@ -213,7 +225,7 @@ task main()
 				move_forward(50,8);
 				if(detect_black_right() || detect_black_left())
 				{
-					turn(900,25,-25);
+					turn(960,25,-15);
 				}
 			}
 			else
@@ -224,7 +236,7 @@ task main()
 				if(detect_black_right() || detect_black_left())
 				{
 					move_forward(50,8);
-					turn(350,15,-15);
+					turn(450,-20,20);
 				}
 			}
 		}
@@ -239,7 +251,7 @@ task main()
 				move_forward(50,8);
 				if(detect_black_right() || detect_black_left())
 				{
-					turn(900,25,-25);
+					turn(960,25,-25);
 				}
 			}
 			else
@@ -250,7 +262,7 @@ task main()
 				if(detect_black_right() || detect_black_left())
 				{
 					move_forward(50,8);
-					turn(400,-15,15);
+					turn(450,20,-20);
 				}
 			}
 		}
