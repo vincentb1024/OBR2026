@@ -2,10 +2,10 @@ int r1, g1, b1, r2, g2, b2, hue1, hue2;
 float distance;
 float distancel;
 int black1 = 12;
-int white1 = 100;
+int white1 = 98;
 int black2 = 8;
 int white2 = 96;
-float kp = 0.9;
+float kp = 0.8;
 float kd = 0.3;
 float lastError;
 int i1,i2,error;
@@ -136,13 +136,13 @@ void avoid_obstacle()
 	turn(480,-40,40);
 	stop();
 	delay(100);
-	move_forward(770,40);
+	move_forward(780,40);
 	stop();
 	delay(100);
 	turn(480,-40,40);
 	stop();
 	delay(100);
-	move_forward(345,40);
+	move_forward(425,40);
 	stop();
 	delay(100);
 	turn(480,40,-40);
@@ -193,7 +193,6 @@ void ball_room()
 	}
 }
 
-
 task main()
 {
 	startTask(refresh_sensors);
@@ -206,7 +205,7 @@ task main()
 			motor[motorB] = 0;
 			break;
 		}
-		else if(detect_silver_left() && detect_silver_right())
+		else if(detect_silver_left() || detect_silver_right())
 		{
 			ball_room();
 		}
@@ -216,9 +215,10 @@ task main()
 		}
 		else if(detect_green_left() )
 		{
+			delay(100);
 			motor[motorA] = 0;
 			motor[motorB] = 0;
-			delay(400);
+			delay(100);
 
 			if (detect_green_right())
 			{
@@ -232,23 +232,31 @@ task main()
 			{
 				motor[motorA] = 0;
 				motor[motorB] = 0;
-				move_forward(50,8);
-				if(detect_black_right() || detect_black_left())
+				move_forward(55,8);
+				if(detect_black_left())
 				{
-					move_forward(50,8);
-					turn(450,-20,20);
+					move_forward(55,8);
+					turn(450,-25,25);
+				}
+				else{
+					move_forward(85,8);
+					if(r1 >= 90 && r2 >= 90){
+						move_forward(95,-8);
+						turn(75,9,-9);
+					}
 				}
 			}
 		}
 
 		else if(detect_green_right() )
 		{
+			delay(100);
 			motor[motorA] = 0;
 			motor[motorB] = 0;
-			delay(400);
+			delay(100);
 			if (detect_green_left())
 			{
-				move_forward(50,8);
+				move_forward(55,8);
 				if(detect_black_right() || detect_black_left())
 				{
 					turn(960,25,-25);
@@ -259,10 +267,18 @@ task main()
 				motor[motorA] = 0;
 				motor[motorB] = 0;
 				move_forward(55,8);
-				if(detect_black_right() || detect_black_left())
+				if(detect_black_right())
 				{
-					move_forward(50,8);
-					turn(450,20,-20);
+					move_forward(55,8);
+					turn(450,25,-25);
+				}
+				else
+				{
+					move_forward(85,8);
+					if(r1 >= 90 && r2 >= 90){
+						move_forward(95,-8);
+						turn(75,-9,9);
+					}
 				}
 			}
 		}
