@@ -6,7 +6,7 @@ int white1 = 98;
 int black2 = 8;
 int white2 = 96;
 float kp = 0.8;
-float kd = 0.3;
+float kd = 0.2;
 float lastError;
 int i1,i2,error;
 
@@ -45,12 +45,12 @@ void stop()
 
 void follow_line()
 {
-	i1 = 100*(r1- black1)/(white1-black1);
-	i2 = 100*(r2 - black2)/(white2-black2);
+	i1 = 100*(r1 - black1)/(white1 - black1);
+	i2 = 100*(r2 - black2)/(white2 - black2);
 	error = i1 - i2;
 	if (abs(error) < 5) error = 0;
-	motor[motorA] = 30 + (error * kp) + ((error - lastError) * kd);
-	motor[motorB] = 30 - (error * kp) + ((error - lastError) * kd);
+	motor[motorA] = 25 + (error * kp) + ((error - lastError) * kd);
+	motor[motorB] = 25 - (error * kp) - ((error - lastError) * kd);
 	lastError = error;
 
 }
@@ -73,12 +73,12 @@ bool detect_silver_right()
 {
 	return (r1 >= r1_silver - margin && r1 <= r1_silver + margin &&
 	g1 >= g1_silver - margin && g1 <= g1_silver + margin &&
-	b1 >= b1_silver - margin && b1 <= b1_silver+margin);
+	b1 >= b1_silver - margin && b1 <= b1_silver + margin);
 }
 
 bool detect_silver_left()
 {
-	return (r2 >= r2_silver - margin && r2 <= r1_silver + margin &&
+	return (r2 >= r2_silver - margin && r2 <= r2_silver + margin &&
 	g2 >= g2_silver - margin && g2 <= g2_silver + margin &&
 	b2 >= b2_silver - margin && b2 <= b2_silver + margin);
 }
@@ -126,30 +126,74 @@ void move_forward(int degrees, int pot)
 void avoid_obstacle()
 {
 	stop();
-	delay(100);
+	delay(30);
 	turn(480,40,-40);
 	stop();
-	delay(100);
+	delay(30);
 	move_forward(410,40);
 	stop();
-	delay(100);
-	turn(480,-40,40);
-	stop();
-	delay(100);
-	move_forward(780,40);
-	stop();
-	delay(100);
-	turn(480,-40,40);
-	stop();
-	delay(100);
-	move_forward(425,40);
-	stop();
-	delay(100);
 	turn(480,40,-40);
 	stop();
-	delay(100);
+	delay(30);
 	move_forward(100,40);
+	while(distancel<3)
+	{
+		move_forward(50,15);
+	}
+	turn(480,-40,40);
+	while((detect_black_left() || detect_black_right() || detect_green_left() || detect_green_right()) == false)
+	{
+		move_forward(50,15);
+	}
+	turn(480,40,-40);
 }
+
+void ball_room()
+{
+	float maxld=15, maxfd=8;
+	move_forward(50,15);
+	if(distancel>maxld)
+	{
+		move_forward(50,15);
+		turn(450,40,-40);
+		move_forward(100,15);
+	}	
+
+	while((detect_black_left() || detect_black_right()) == false)
+	{
+		if(distance < maxfd)
+		{
+			motor[motorB] = 15;
+			motor[motorA] = -15;
+			delay(15);
+			
+		}
+		else
+		{
+			motor[motorA] = 15;
+			motor[motorB] = 15;
+			delay(20);
+		}
+		if(distancel>maxld)
+		{
+			delay(50);
+			if(distancel>maxld)
+			{	
+				move_forward(50,15);
+				turn(450,40,-40);
+				while((detect_black_left() || detect_black_right()) == false)
+				{
+					motor[motorB] = 8;
+					motor[motorA] = 8;
+					delay(5);
+				}
+				move_forward(15,5);
+			}
+		}
+
+	}
+}
+
 
 task refresh_sensors()
 {
@@ -164,34 +208,7 @@ task refresh_sensors()
 		delay(10);
 	}
 }
-void ball_room()
-{
-	float maxld=15, maxfd=5;
-	move_forward(50,15);
-	if(distancel>maxld)
-	{
-		turn(450,40,-40);
-		move_forward(100,15);
-	}
 
-	while((detect_black_left() || detect_black_right()) == false)
-	{
-		if(distance<maxfd)
-		{
-			turn(50,-40,40);
-		}
-		else
-		{
-			move_forward(20,15);
-		}
-		if(distancel>maxld)
-		{
-			turn(450,40,-40);
-			move_forward(50,15);
-		}
-
-	}
-}
 
 task main()
 {
@@ -215,10 +232,10 @@ task main()
 		}
 		else if(detect_green_left() )
 		{
-			delay(100);
+			delay(10);
 			motor[motorA] = 0;
 			motor[motorB] = 0;
-			delay(100);
+			delay(10);
 
 			if (detect_green_right())
 			{
@@ -238,22 +255,23 @@ task main()
 					move_forward(55,8);
 					turn(450,-25,25);
 				}
-				else{
+				else
+				{
 					move_forward(85,8);
-					if(r1 >= 90 && r2 >= 90){
-						move_forward(95,-8);
+					if(r1 >= 90 && r2 >= 90)
+					{
+						move_forward(100,-8);
 						turn(75,9,-9);
 					}
 				}
 			}
 		}
-
 		else if(detect_green_right() )
 		{
-			delay(100);
+			delay(10);
 			motor[motorA] = 0;
 			motor[motorB] = 0;
-			delay(100);
+			delay(10);
 			if (detect_green_left())
 			{
 				move_forward(55,8);
@@ -275,8 +293,9 @@ task main()
 				else
 				{
 					move_forward(85,8);
-					if(r1 >= 90 && r2 >= 90){
-						move_forward(95,-8);
+					if(r1 >= 90 && r2 >= 90)
+					{
+						move_forward(100,-8);
 						turn(75,-9,9);
 					}
 				}
