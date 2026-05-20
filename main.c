@@ -52,7 +52,6 @@ void follow_line()
 	motor[motorA] = 25 + (error * kp) + ((error - lastError) * kd);
 	motor[motorB] = 25 - (error * kp) - ((error - lastError) * kd);
 	lastError = error;
-
 }
 
 bool detect_green_right()
@@ -99,12 +98,12 @@ bool detect_red_left()
 
 bool detect_black_right()
 {
-	return(r1 <= black1 + 10);
+	return(r1 <= black1 + margin);
 }
 
 bool detect_black_left()
 {
-	return(r2 <= black2 + 10);
+	return(r2 <= black2 + margin);
 }
 
 void turn(int degrees, int potB, int potA)
@@ -130,28 +129,42 @@ void avoid_obstacle()
 	turn(480,40,-40);
 	stop();
 	delay(30);
-	move_forward(410,40);
-	stop();
-	turn(480,40,-40);
-	stop();
+	while(distancel < 3)
+	{
+		motor[motorA] = 10;
+		motor[motorB] = 10;
+		delay(5);
+	}
+	move_forward(80,10);
 	delay(30);
-	move_forward(100,40);
-	while(distancel<3)
-	{
-		move_forward(50,15);
-	}
 	turn(480,-40,40);
-	while((detect_black_left() || detect_black_right() || detect_green_left() || detect_green_right()) == false)
+	while(distancel > 3)
 	{
-		move_forward(50,15);
+		motor[motorA] = 10;
+		motor[motorB] = 10;
+		delay(5);
 	}
+	while(distancel < 3)
+	{
+		motor[motorA] = 10;
+		motor[motorB] = 10;
+		delay(5);
+	}
+	move_forward(80,10);
+	turn(480,-40,40);
+	while((detect_black_left() || detect_black_right()) == false)
+	{
+		motor[motorA] = 8;
+		motor[motorB] = 8;
+	}
+	move_forward(10,10);
 	turn(480,40,-40);
 }
 
 void ball_room()
 {
 	float maxld=15, maxfd=8;
-	move_forward(50,15);
+	move_forward(100,15);
 	if(distancel>maxld)
 	{
 		move_forward(50,15);
@@ -165,14 +178,14 @@ void ball_room()
 		{
 			motor[motorB] = 15;
 			motor[motorA] = -15;
-			delay(15);
+			delay(5);
 			
 		}
 		else
 		{
-			motor[motorA] = 15;
-			motor[motorB] = 15;
-			delay(20);
+			motor[motorA] = 35;
+			motor[motorB] = 35;
+			delay(5);
 		}
 		if(distancel>maxld)
 		{
@@ -183,8 +196,8 @@ void ball_room()
 				turn(450,40,-40);
 				while((detect_black_left() || detect_black_right()) == false)
 				{
-					motor[motorB] = 8;
-					motor[motorA] = 8;
+					motor[motorB] = 10;
+					motor[motorA] = 10;
 					delay(5);
 				}
 				move_forward(15,5);
@@ -193,7 +206,6 @@ void ball_room()
 
 	}
 }
-
 
 task refresh_sensors()
 {
@@ -213,13 +225,11 @@ task refresh_sensors()
 task main()
 {
 	startTask(refresh_sensors);
-
 	while(true)
 	{
 		if (detect_red_left() || detect_red_right())
 		{
-			motor[motorA] = 0;
-			motor[motorB] = 0;
+			stop();
 			break;
 		}
 		else if(detect_silver_left() || detect_silver_right())
@@ -232,23 +242,20 @@ task main()
 		}
 		else if(detect_green_left() )
 		{
+			stop();
 			delay(10);
-			motor[motorA] = 0;
-			motor[motorB] = 0;
-			delay(10);
-
 			if (detect_green_right())
 			{
 				move_forward(50,8);
 				if(detect_black_right() || detect_black_left())
 				{
-					turn(960,25,-15);
+					turn(960,25,-25);
+					move_forward(15,10);
 				}
 			}
 			else
 			{
-				motor[motorA] = 0;
-				motor[motorB] = 0;
+				stop();
 				move_forward(55,8);
 				if(detect_black_left())
 				{
@@ -257,20 +264,18 @@ task main()
 				}
 				else
 				{
-					move_forward(85,8);
+					move_forward(85,10);
 					if(r1 >= 90 && r2 >= 90)
 					{
-						move_forward(100,-8);
-						turn(75,9,-9);
+						move_forward(105,-10);
+						turn(75,10,-10);
 					}
 				}
 			}
 		}
 		else if(detect_green_right() )
 		{
-			delay(10);
-			motor[motorA] = 0;
-			motor[motorB] = 0;
+			stop();
 			delay(10);
 			if (detect_green_left())
 			{
@@ -278,12 +283,12 @@ task main()
 				if(detect_black_right() || detect_black_left())
 				{
 					turn(960,25,-25);
+					move_forward(8,10);
 				}
 			}
 			else
 			{
-				motor[motorA] = 0;
-				motor[motorB] = 0;
+				stop();
 				move_forward(55,8);
 				if(detect_black_right())
 				{
@@ -292,11 +297,11 @@ task main()
 				}
 				else
 				{
-					move_forward(85,8);
+					move_forward(85,10);
 					if(r1 >= 90 && r2 >= 90)
 					{
-						move_forward(100,-8);
-						turn(75,-9,9);
+						move_forward(100,-10);
+						turn(75,-10,10);
 					}
 				}
 			}
