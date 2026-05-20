@@ -6,7 +6,7 @@ int white1 = 98;
 int black2 = 8;
 int white2 = 96;
 float kp = 0.8;
-float kd = 0.2;
+float kd = 0.3;
 float lastError;
 int i1,i2,error;
 
@@ -49,8 +49,8 @@ void follow_line()
 	i2 = 100*(r2 - black2)/(white2 - black2);
 	error = i1 - i2;
 	if (abs(error) < 5) error = 0;
-	motor[motorA] = 25 + (error * kp) + ((error - lastError) * kd);
-	motor[motorB] = 25 - (error * kp) - ((error - lastError) * kd);
+	motor[motorA] = 22 + (error * kp) + ((abs(error - lastError)) * kd);
+	motor[motorB] = 22 - (error * kp) + ((abs(error - lastError)) * kd);
 	lastError = error;
 }
 
@@ -126,44 +126,45 @@ void avoid_obstacle()
 {
 	stop();
 	delay(30);
-	turn(480,40,-40);
-	stop();
+	move_forward(70,-8);
+	turn(465,40,-40);
 	delay(30);
-	while(distancel < 5)
+	while(distancel < 20)
 	{
 		motor[motorA] = 10;
 		motor[motorB] = 10;
 		delay(5);
 	}
-	move_forward(110,10);
+	move_forward(180,10);
 	delay(30);
-	turn(480,-40,40);
-	while(distancel > 5)
+	turn(465,-40,40);
+	while(distancel > 20)
 	{
 		motor[motorA] = 10;
 		motor[motorB] = 10;
 		delay(5);
 	}
-	while(distancel < 5)
+	while(distancel < 20)
 	{
 		motor[motorA] = 10;
 		motor[motorB] = 10;
 		delay(5);
 	}
-	move_forward(110,10);
-	turn(480,-40,40);
+	move_forward(180,10);
+	turn(465,-40,40);
+	move_forward(150,10);
 	while((detect_black_left() || detect_black_right()) == false)
 	{
 		motor[motorA] = 8;
 		motor[motorB] = 8;
 	}
-	move_forward(10,10);
+	move_forward(50,10);
 	turn(480,40,-40);
 }
 
 void ball_room()
 {
-	float maxld=15, maxfd=8;
+	float maxld = 15, maxfd = 8;
 	move_forward(100,15);
 	if(distancel>maxld)
 	{
@@ -187,10 +188,10 @@ void ball_room()
 			motor[motorB] = 35;
 			delay(5);
 		}
-		if(distancel>maxld)
+		if(distancel > maxld)
 		{
 			delay(50);
-			if(distancel>maxld)
+			if(distancel > maxld)
 			{	
 				move_forward(50,15);
 				turn(450,40,-40);
@@ -236,7 +237,7 @@ task main()
 		{
 			ball_room();
 		}
-		else if(distance <= 6)
+		else if(distance <= 5)
 		{
 			avoid_obstacle();
 		}
