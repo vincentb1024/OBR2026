@@ -49,8 +49,8 @@ void follow_line()
 	i2 = 100*(r2 - black2)/(white2 - black2);
 	error = i1 - i2;
 	if (abs(error) < 5) error = 0;
-	motor[motorA] = 22 + (error * kp) + ((abs(error - lastError)) * kd);
-	motor[motorB] = 22 - (error * kp) + ((abs(error - lastError)) * kd);
+	motor[motorA] = 24 + (error * kp) + ((error - lastError) * kd);
+	motor[motorB] = 24 - (error * kp) - ((error - lastError) * kd);
 	lastError = error;
 }
 
