@@ -135,7 +135,7 @@ void avoid_obstacle()
 		motor[motorB] = 10;
 		delay(5);
 	}
-	move_forward(80,10);
+	move_forward(110,10);
 	delay(30);
 	turn(480,-40,40);
 	while(distancel > 5)
@@ -150,7 +150,7 @@ void avoid_obstacle()
 		motor[motorB] = 10;
 		delay(5);
 	}
-	move_forward(80,10);
+	move_forward(110,10);
 	turn(480,-40,40);
 	while((detect_black_left() || detect_black_right()) == false)
 	{
