@@ -129,7 +129,7 @@ void avoid_obstacle()
 	turn(480,40,-40);
 	stop();
 	delay(30);
-	while(distancel < 3)
+	while(distancel < 5)
 	{
 		motor[motorA] = 10;
 		motor[motorB] = 10;
@@ -138,13 +138,13 @@ void avoid_obstacle()
 	move_forward(80,10);
 	delay(30);
 	turn(480,-40,40);
-	while(distancel > 3)
+	while(distancel > 5)
 	{
 		motor[motorA] = 10;
 		motor[motorB] = 10;
 		delay(5);
 	}
-	while(distancel < 3)
+	while(distancel < 5)
 	{
 		motor[motorA] = 10;
 		motor[motorB] = 10;
