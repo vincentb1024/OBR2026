@@ -171,7 +171,7 @@ void avoid_obstacle()
 	move_forward(180,10);
 	turn(465,-40,40);
 	move_forward(150,10);
-	while((detect_black_left() || detect_black_right()) == false)
+	repeatUntil(detect_black_left() || detect_black_right())
 	{
 		motor[motorA] = 10;
 		motor[motorB] = 10;
@@ -191,7 +191,7 @@ void ball_room()
 		move_forward(100,15);
 	}	
 
-	while((detect_black_left() || detect_black_right()) == false)
+	repeatUntil(detect_black_left() || detect_black_right())
 	{
 		if(distance < maxfd)
 		{
@@ -213,16 +213,17 @@ void ball_room()
 			{	
 				move_forward(100,15);
 				turn(465,-40,40);
-				while((detect_black_left() || detect_black_right()) == false)
+				repeatUntil(detect_black_left() || detect_black_right())
 				{
 					motor[motorB] = 10;
 					motor[motorA] = 10;
 					delay(5);
-				}
+	 			}
 				move_forward(25,5);
 			}
 		}
 	}
+	move_forward
 }
 
 task refresh_sensors()
