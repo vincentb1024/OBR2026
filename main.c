@@ -1,6 +1,5 @@
 int r1, g1, b1, r2, g2, b2, hue1, hue2;
-float distance;
-float distancel;
+float distance, distancel;
 int black1 = 12;
 int white1 = 98;
 int black2 = 8;
@@ -8,7 +7,7 @@ int white2 = 96;
 float kp = 0.8;
 float kd = 0.3;
 float lastError;
-int i1,i2,error;
+int i1, i2, error;
 
 int r1_green = 12;
 int g1_green = 18;
@@ -47,10 +46,29 @@ void follow_line()
 {
 	i1 = 100*(r1 - black1)/(white1 - black1);
 	i2 = 100*(r2 - black2)/(white2 - black2);
+
 	error = i1 - i2;
-	if (abs(error) < 5) error = 0;
-	motor[motorA] = 24 + (error * kp) + ((error - lastError) * kd);
-	motor[motorB] = 24 - (error * kp) - ((error - lastError) * kd);
+
+	if(abs(error) < 5) error = 0;
+
+	float correction = (error * kp) + ((error - lastError) * kd);
+
+	int baseSpeed = 35 - abs(error) * 0.5;
+
+	if(baseSpeed < 12) baseSpeed = 12;
+
+	int powerA = baseSpeed + correction;
+	int powerB = baseSpeed - correction;
+
+	if(powerA > 100) powerA = 100;
+	if(powerA < -100) powerA = -100;
+
+	if(powerB > 100) powerB = 100;
+	if(powerB < -100) powerB = -100;
+
+	motor[motorA] = powerA;
+	motor[motorB] = powerB;
+
 	lastError = error;
 }
 
@@ -131,8 +149,8 @@ void avoid_obstacle()
 	delay(30);
 	while(distancel < 20)
 	{
-		motor[motorA] = 10;
-		motor[motorB] = 10;
+		motor[motorA] = 15;
+		motor[motorB] = 15;
 		delay(5);
 	}
 	move_forward(180,10);
@@ -140,14 +158,14 @@ void avoid_obstacle()
 	turn(465,-40,40);
 	while(distancel > 20)
 	{
-		motor[motorA] = 10;
-		motor[motorB] = 10;
+		motor[motorA] = 15;
+		motor[motorB] = 15;
 		delay(5);
 	}
 	while(distancel < 20)
 	{
-		motor[motorA] = 10;
-		motor[motorB] = 10;
+		motor[motorA] = 15;
+		motor[motorB] = 15;
 		delay(5);
 	}
 	move_forward(180,10);
@@ -155,21 +173,21 @@ void avoid_obstacle()
 	move_forward(150,10);
 	while((detect_black_left() || detect_black_right()) == false)
 	{
-		motor[motorA] = 8;
-		motor[motorB] = 8;
+		motor[motorA] = 10;
+		motor[motorB] = 10;
 	}
 	move_forward(50,10);
-	turn(480,40,-40);
+	turn(465,40,-40);
 }
 
 void ball_room()
 {
 	float maxld = 15, maxfd = 8;
-	move_forward(100,15);
+	move_forward(200,15);
 	if(distancel>maxld)
 	{
 		move_forward(50,15);
-		turn(450,40,-40);
+		turn(465,40,-40);
 		move_forward(100,15);
 	}	
 
@@ -193,18 +211,17 @@ void ball_room()
 			delay(50);
 			if(distancel > maxld)
 			{	
-				move_forward(50,15);
-				turn(450,40,-40);
+				move_forward(100,15);
+				turn(465,-40,40);
 				while((detect_black_left() || detect_black_right()) == false)
 				{
 					motor[motorB] = 10;
 					motor[motorA] = 10;
 					delay(5);
 				}
-				move_forward(15,5);
+				move_forward(25,5);
 			}
 		}
-
 	}
 }
 
@@ -218,7 +235,7 @@ task refresh_sensors()
 		hue2 = getColorHue(S2);
 		distance = getUSDistance(S3);
 		distancel = getUSDistance(S4);
-		delay(10);
+		delay(12);
 	}
 }
 
@@ -231,7 +248,15 @@ task main()
 		if (detect_red_left() || detect_red_right())
 		{
 			stop();
-			break;
+			move_forward(70,-10);
+			delay(5);
+			move_forward(70,10);
+			if (detect_red_left() || detect_red_right())
+			{
+				stop();
+				break;
+			
+			}
 		}
 		else if(detect_silver_left() || detect_silver_right())
 		{
@@ -245,13 +270,14 @@ task main()
 		{
 			stop();
 			delay(10);
+			move_forward(10,5);
 			if (detect_green_right())
 			{
-				move_forward(50,8);
+				move_forward(55,8);
 				if(detect_black_right() || detect_black_left())
 				{
 					turn(960,25,-25);
-					move_forward(15,10);
+					move_forward(25,10);
 				}
 			}
 			else
@@ -261,12 +287,12 @@ task main()
 				if(detect_black_left())
 				{
 					move_forward(55,8);
-					turn(450,-25,25);
+					turn(465,-25,25);
 				}
 				else
 				{
 					move_forward(85,10);
-					if(r1 >= 90 && r2 >= 90)
+					if(r1 >= 88 && r2 >= 88)
 					{
 						move_forward(105,-10);
 						turn(75,10,-10);
@@ -277,6 +303,7 @@ task main()
 		else if(detect_green_right() )
 		{
 			stop();
+			move_forward(10,5);
 			delay(10);
 			if (detect_green_left())
 			{
@@ -284,7 +311,7 @@ task main()
 				if(detect_black_right() || detect_black_left())
 				{
 					turn(960,25,-25);
-					move_forward(8,10);
+					move_forward(25,10);
 				}
 			}
 			else
@@ -294,14 +321,14 @@ task main()
 				if(detect_black_right())
 				{
 					move_forward(55,8);
-					turn(450,25,-25);
+					turn(465,25,-25);
 				}
 				else
 				{
 					move_forward(85,10);
-					if(r1 >= 90 && r2 >= 90)
+					if(r1 >= 88 && r2 >= 88)
 					{
-						move_forward(100,-10);
+						move_forward(105,-10);
 						turn(75,-10,10);
 					}
 				}
