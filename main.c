@@ -145,7 +145,7 @@ void avoid_obstacle()
 	stop();
 	delay(30);
 	move_forward(70,-8);
-	turn(465,40,-40);
+	turn(480,40,-40);
 	delay(30);
 	while(distancel < 20)
 	{
@@ -155,7 +155,7 @@ void avoid_obstacle()
 	}
 	move_forward(180,10);
 	delay(30);
-	turn(465,-40,40);
+	turn(480,-40,40);
 	while(distancel > 20)
 	{
 		motor[motorA] = 15;
@@ -169,7 +169,7 @@ void avoid_obstacle()
 		delay(5);
 	}
 	move_forward(180,10);
-	turn(465,-40,40);
+	turn(480,-40,40);
 	move_forward(150,10);
 	repeatUntil(detect_black_left() || detect_black_right())
 	{
@@ -177,7 +177,7 @@ void avoid_obstacle()
 		motor[motorB] = 10;
 	}
 	move_forward(50,10);
-	turn(465,40,-40);
+	turn(480,40,-40);
 }
 
 void ball_room()
@@ -187,7 +187,7 @@ void ball_room()
 	if(distancel>maxld)
 	{
 		move_forward(50,15);
-		turn(465,40,-40);
+		turn(480,40,-40);
 		move_forward(100,15);
 	}	
 
@@ -212,7 +212,7 @@ void ball_room()
 			if(distancel > maxld)
 			{	
 				move_forward(100,15);
-				turn(465,-40,40);
+				turn(480,-40,40);
 				repeatUntil(detect_black_left() || detect_black_right())
 				{
 					motor[motorB] = 10;
@@ -288,7 +288,7 @@ task main()
 				if(detect_black_left())
 				{
 					move_forward(55,8);
-					turn(465,-25,25);
+					turn(480,-25,25);
 				}
 				else
 				{
@@ -322,7 +322,7 @@ task main()
 				if(detect_black_right())
 				{
 					move_forward(55,8);
-					turn(465,25,-25);
+					turn(480,25,-25);
 				}
 				else
 				{
