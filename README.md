@@ -2,20 +2,21 @@
 - Follow Line **DONE**
 - Crossroads/Green Handling **DONE**
 - Gap Handling **DONE**
-- Ballroom traversing **TESTING**
 - Red Line **DONE**
 - Obstacle Handling **DONE**
-*- Basic robot structure* **DONE**
+- *Basic robot structure* **DONE**
 
 **Regional**
--Semi-automatic color calibration
+- Semi-automatic color calibration **WIP**
+- Ballroom traversing **WIP**
+
 
 **Estadual**
 - Ball sorting
-*- Ball catching*
+- *Ball catching*
 - Better ballroom traversion
 
 **National**
 - Modular code
-*- Modular robot structure*
+- *Modular robot structure*
 - Optimizations
