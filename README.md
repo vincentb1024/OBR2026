@@ -1,21 +1,64 @@
-**Selective**
-- Follow Line **DONE**
-- Crossroads/Green Handling **DONE**
-- Gap Handling **DONE**
-- Ballroom traversing **TESTING**
-- Red Line **DONE**
-- Obstacle Handling **DONE**
-*- Basic robot structure* **DONE**
+# 🤖 OBR2026 - Os Caras Team
 
-**Regional**
--Semi-automatic color calibration
+Welcome to the official repository of the **Os Caras** team. This project was developed for OBR2026, focusing on creating an autonomous robot capable of line following, obstacle avoidance, and arena rescue.
 
-**Estadual**
-- Ball sorting
-*- Ball catching*
-- Better ballroom traversion
+---
 
-**National**
-- Modular code
-*- Modular robot structure*
-- Optimizations
+## 👥 The Team
+Meet the team members and their respective roles in the project:
+
+* **Vincent B.** — *Team Leader & Main Developer*
+* **Giovani G.** — *Vice Leader & Main Developer*
+* **Gustavo W.** — *Main Mechanic*
+* **Rafael M.** — *Mechanic*
+
+---
+
+## 🎯 Development Roadmap
+
+Our progress is divided into competitive stages, ensuring the robot evolves consistently through each phase.
+
+### 🏁 Selective Stage
+Current status of basic arena functions:
+
+- [x] Basic robot structure
+- [x] Follow Line
+- [x] Crossroads / Green Handling
+- [x] Gap Handling
+- [x] Obstacle Handling
+- [x] Red Line detection
+- [🔄] Rescue Room traversing 2.0 — *Testing phase*
+
+### 🏆 Regional Stage
+Focus on sensor optimization and consistency:
+
+- [x] Semi-automatic color calibration *(All credits to Giovani G.)*
+
+### 🏅 State Stage
+Focus on mechanics and rescue logic in the main arena:
+
+- [ ] Ball catching system
+- [ ] Ball sorting system
+- [ ] Better rescue room traversion
+
+### 🇧🇷 National Stage
+Focus on advanced engineering, code architecture, and performance:
+
+- [ ] Modular code
+- [ ] Modular robot structure
+- [ ] General optimizations
+
+---
+
+## 🛠️ Technologies and Components
+* **Language:** ROBOTC
+* **Microcontroller:** Lego Mindstorms EV3
+* **Sensors:** Color sensors (x2), Ultrassonic sensors (x2)
+
+---
+
+## 📜 License & Intellectual Property
+
+This project and all its contents—including code, mechanical designs, and documentation—are the intellectual property of **Os Caras Team**. 
+
+All rights reserved. Unauthorized copying, distribution, or modification of this work without explicit permission from the team members is strictly prohibited.
