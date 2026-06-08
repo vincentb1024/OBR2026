@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # 🤖 OBR2026 - Os Caras Team
 
 Welcome to the official repository of the **Os Caras** team. This project was developed for OBR2026, focusing on creating an autonomous robot capable of line following, obstacle avoidance, and arena rescue.
@@ -6,12 +5,13 @@ Welcome to the official repository of the **Os Caras** team. This project was de
 ---
 
 ## 👥 The Team
+
 Meet the team members and their respective roles in the project:
 
-* **Vincent B.** — *Team Leader & Main Developer*
-* **Giovani G.** — *Vice Leader & Main Developer*
-* **Gustavo W.** — *Main Mechanic*
-* **Rafael M.** — *Mechanic*
+- **Vincent B.** — _Team Leader & Main Developer_
+- **Giovani G.** — _Vice Leader & Main Developer_
+- **Gustavo W.** — _Main Mechanic_
+- **Rafael M.** — _Mechanic_
 
 ---
 
@@ -20,6 +20,7 @@ Meet the team members and their respective roles in the project:
 Our progress is divided into competitive stages, ensuring the robot evolves consistently through each phase.
 
 ### 🏁 Selective Stage
+
 Current status of basic arena functions:
 
 - [x] Basic robot structure
@@ -28,14 +29,16 @@ Current status of basic arena functions:
 - [x] Gap Handling
 - [x] Obstacle Handling
 - [x] Red Line detection
-- [🔄] Rescue Room traversing 2.0 — *Testing phase*
+- [🔄] Rescue Room traversing 2.0 — _Testing phase_
 
 ### 🏆 Regional Stage
+
 Focus on sensor optimization and consistency:
 
-- [x] Semi-automatic color calibration *(All credits to Giovani G.)*
+- [x] Semi-automatic color calibration _(All credits to Giovani G.)_
 
 ### 🏅 State Stage
+
 Focus on mechanics and rescue logic in the main arena:
 
 - [ ] Ball catching system
@@ -43,6 +46,7 @@ Focus on mechanics and rescue logic in the main arena:
 - [ ] Better rescue room traversion
 
 ### 🇧🇷 National Stage
+
 Focus on advanced engineering, code architecture, and performance:
 
 - [ ] Modular code
@@ -52,16 +56,17 @@ Focus on advanced engineering, code architecture, and performance:
 ---
 
 ## 🛠️ Technologies and Components
-* **Language:** ROBOTC
-* **Microcontroller:** Lego Mindstorms EV3
-* **Sensors:** Color sensors (x2), Ultrassonic sensors (x2)
+
+- **Language:** ROBOTC
+- **Microcontroller:** Lego Mindstorms EV3
+- **Sensors:** Color sensors (x2), Ultrassonic sensors (x2)
 
 ---
 
 ## 📜 License & Intellectual Property
 
-This project and all its contents—including code, mechanical designs, and documentation—are the intellectual property of **Os Caras Team**. 
+This project and all its contents—including code, mechanical designs, and documentation—are the intellectual property of **Os Caras Team**.
 
 All rights reserved. Unauthorized copying, distribution, or modification of this work without explicit permission from the team members is strictly prohibited.
-=======
 
+---
