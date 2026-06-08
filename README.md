@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🤖 OBR2026 - Os Caras Team
 
 Welcome to the official repository of the **Os Caras** team. This project was developed for OBR2026, focusing on creating an autonomous robot capable of line following, obstacle avoidance, and arena rescue.
@@ -62,3 +63,5 @@ Focus on advanced engineering, code architecture, and performance:
 This project and all its contents—including code, mechanical designs, and documentation—are the intellectual property of **Os Caras Team**. 
 
 All rights reserved. Unauthorized copying, distribution, or modification of this work without explicit permission from the team members is strictly prohibited.
+=======
+
