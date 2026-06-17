@@ -1,31 +1,31 @@
 int r1, g1, b1, r2, g2, b2, hue1, hue2;
 float distance_front, distance_left;
 bool black_detected = false;
-int white1 = 93;
-int black1 = 10;
-int white2 = 91;
-int black2 = 7;
+int white1 = 114;
+int black1 = 11;
+int white2 = 109;
+int black2 = 14;
 
 float kp = 0.8;
 float kd = 0.3;
 float last_error;
 int i1, i2, error;
 
-int r1_green = 10;
-int g1_green = 20;
-int hue1_green = 120;
+int r1_green = 13;
+int g1_green = 30;
+int hue1_green = 115;
 
-int r2_green = 10;
-int g2_green = 24;
-int hue2_green = 126;
+int r2_green = 11;
+int g2_green = 40;
+int hue2_green = 121;
 
-int r1_red = 64;
+int r1_red = 75;
 int g1_red = 12;
-int hue1_red = 6;
+int hue1_red = 11;
 
-int r2_red = 69;
-int g2_red = 14;
-int hue2_red = 6;
+int r2_red = 98;
+int g2_red = 11;
+int hue2_red = 5;
 
 int margin = 10;
 int margin_hue = 15;
@@ -136,14 +136,14 @@ void avoid_obstacle()
 	delay(10);
 	turn(480, 35, -35);
 	delay(30);
-	move_forward(100,10);
+	move_forward(105,10);
 	while(distance_left < 20)
 	{
 		motor[motorA] = 18;
 		motor[motorB] = 18;
 		delay(5);
 	}
-	move_forward(180, 10);
+	move_forward(185, 10);
 	delay(30);
 	turn(480, -35, 35);
 	while(distance_left > 20)
@@ -171,10 +171,54 @@ void avoid_obstacle()
 	turn(480, 35, -35);
 }
 
+task detect_black()
+{
+	while(true)
+	{
+		if(detect_black_left() || detect_black_right())
+		{
+			black_detected = true;
+		}
+		else
+		{
+			black_detected = false;
+		}
+		delay(10);
+	}
+}
+
+void find_line()
+{
+	while(true)
+	{
+		clearTimer(T2);
+		black_detected = false;
+		startTask(detect_black);
+		move_forward(85,10);
+		if(black_detected == true)
+		{
+			stop_motors();
+			playSound(soundBlip);
+			stopTask(detect_black);
+			break;
+		}
+		repeatUntil(black_detected == true || time1[T2] > 1500)
+		{
+			motor[motorB] = 10;
+			motor[motorA] = -10;
+		}
+		repeatUntil(black_detected == true || time1[T2] > 1500)
+		{
+			motor[motorB] = -10;
+			motor[motorA] = 10;
+		}
+	}
+}
+
 void rescue_room()
 {
 	int min_left = 4;
-	move_forward(300,30);
+	move_forward(320,30);
 	black_detected = false;
 	startTask(detect_black);
 	while(true)
@@ -184,6 +228,7 @@ void rescue_room()
 			stop_motors();
 			playSound(soundBlip);
 			stopTask(detect_black);
+			find_line();
 			break;
 		}
 		else if(distance_left <= 25 && distance_front < 25)
@@ -200,6 +245,18 @@ void rescue_room()
 			move_forward(70,-8);
 			turn(480,35,-35);
 		}
+		else if(distance_left > 35)
+		{
+			move_forward(110,10);
+			turn(480,-30,30);
+			move_forward(110,8);
+			clearTimer(T1);
+			repeatUntil(black_detected == true || distance_front < 30 || time1[T1] > 3500)
+			{
+				motor[motorA] = 15;
+				motor[motorB] = 15;
+			}
+		}
 		else if(distance_left >= 25 && distance_front >= 25)
 		{
 			motor[motorA] = 20;
@@ -210,22 +267,11 @@ void rescue_room()
 			turn(35,20,-20);
 			move_forward(80,10);
 		}
-		else if(distance_left > 35)
+		else
 		{
-			turn(480,-30,30);
-			move_forward(50,8);
-			clearTimer(T1);
-			repeatUntil(black_detected == true || distance_front < 30 || time1[T1] > 2500)
-			{
-				motor[motorA] = 15;
-				motor[motorB] = 15;
-			}
+			motor[motorA] = 20;
+			motor[motorB] = 20;
 		}
-        else
-        {
-	        motor[motorA] = 20;
-	        motor[motorB] = 20;
-        }
 	}
 }
 
@@ -239,23 +285,7 @@ task refresh_sensors()
 		hue2 = getColorHue(S2);
 		distance_front = getUSDistance(S3);
 		distance_left = getUSDistance(S4);
-		delay(8);
-	}
-}
-
-task detect_black()
-{
-	while(true)
-	{
-		if(detect_black_left() || detect_black_right())
-		{
-			black_detected = true;
-		}
-		else
-		{
-			black_detected = false;
-		}
-		delay(10);
+		delay(3);
 	}
 }
 
@@ -283,7 +313,7 @@ task main()
 			playSound(soundBeepBeep);
 			rescue_room();
 		}
-		else if(distance_front <= 5)
+		else if(distance_front <= 4)
 		{
 			avoid_obstacle();
 		}
@@ -291,19 +321,22 @@ task main()
 		{
 			stop_motors();
 			delay(5);
+			move_forward(15,8);
 			if (detect_green_right())
 			{
 				move_forward(55, 8);
 				if(detect_black_right() || detect_black_left())
 				{
 					turn(960, 25, -25);
-					move_forward(55, 10);
+					delay(5);
+					move_forward(60, 10);
+					delay(5);
 				}
 			}
 			else
 			{
 				move_forward(55, 8);
-				if(detect_black_left())
+				if(detect_black_left() || detect_black_right())
 				{
 					move_forward(55, 8);
 					turn(480, -25, 25);
@@ -324,19 +357,22 @@ task main()
 		{
 			stop_motors();
 			delay(5);
+			move_forward(15,8);
 			if (detect_green_left())
 			{
 				move_forward(55, 8);
 				if(detect_black_right() || detect_black_left())
 				{
 					turn(960, 25, -25);
-					move_forward(55, 8);
+					delay(5);
+					move_forward(60, 8);
+					delay(5);
 				}
 			}
 			else
 			{
 				move_forward(55, 8);
-				if(detect_black_right())
+				if(detect_black_right() || detect_black_left())
 				{
 					move_forward(55, 8);
 					turn(480, 25, -25);
@@ -357,85 +393,85 @@ task main()
 		{
 			follow_line();
 		}
-		delay(10);
+		delay(5);
 	}
 }
 
 /*
 void rescue_room()
 {
-    float last_left1 = 255;
-    float last_left2 = 255;
+float last_left1 = 255;
+float last_left2 = 255;
 
-    move_forward(300,30);
+move_forward(300,30);
 
-    black_detected = false;
-    startTask(detect_black);
+black_detected = false;
+startTask(detect_black);
 
-    while(true)
-    {
-	    bool approaching_wall =
-	    (
-		    distance_left < last_left1 &&
-		    last_left1 < last_left2 &&
-		    distance_left < 8
-	    );
+while(true)
+{
+bool approaching_wall =
+(
+distance_left < last_left1 &&
+last_left1 < last_left2 &&
+distance_left < 8
+);
 
-	    last_left2 = last_left1;
-	    last_left1 = distance_left;
+last_left2 = last_left1;
+last_left1 = distance_left;
 
-	    if(black_detected == true)
-	    {
-		    stop_motors();
-		    playSound(soundBlip);
-		    stopTask(detect_black);
-		    break;
-	    }
-	    else if(distance_left <= 25 && distance_front < 25)
-	    {
-		    turn(250,30,-30);
-	    }
-	    else if(distance_left <= 25 && distance_front >= 25)
-	    {
-		    motor[motorA] = 20;
-		    motor[motorB] = 20;
-	    }
-	    else if(distance_front < 10 && distance_left > 15)
-	    {
-		    move_forward(70,-8);
-		    turn(480,35,-35);
-	    }
-	    else if(distance_left >= 25 && distance_front >= 25)
-	    {
-		    motor[motorA] = 20;
-		    motor[motorB] = 20;
-	    }
-	    else if(approaching_wall)
-	    {
-		    turn(35,20,-20);
-		    move_forward(80,10);
-	    }   
-	    else if(distance_left > 35)
-	    {
-		    turn(480,-30,30);
-		    move_forward(50,8);
-		    clearTimer(T1);
+if(black_detected == true)
+{
+stop_motors();
+playSound(soundBlip);
+stopTask(detect_black);
+break;
+}
+else if(distance_left <= 25 && distance_front < 25)
+{
+turn(250,30,-30);
+}
+else if(distance_left <= 25 && distance_front >= 25)
+{
+motor[motorA] = 20;
+motor[motorB] = 20;
+}
+else if(distance_front < 10 && distance_left > 15)
+{
+move_forward(70,-8);
+turn(480,35,-35);
+}
+else if(distance_left >= 25 && distance_front >= 25)
+{
+motor[motorA] = 20;
+motor[motorB] = 20;
+}
+else if(approaching_wall)
+{
+turn(35,20,-20);
+move_forward(80,10);
+}
+else if(distance_left > 35)
+{
+turn(480,-30,30);
+move_forward(50,8);
+clearTimer(T1);
 
-		    repeatUntil(
-			    black_detected == true ||
-			    distance_front < 30 ||
-			    time1[T1] > 2500)
-		    {
-			    motor[motorA] = 15;
-			    motor[motorB] = 15;
-		    }
-	    }
-        else
-        {
-	        motor[motorA] = 20;
-	        motor[motorB] = 20;
-        }
-    }
+repeatUntil(
+black_detected == true ||
+distance_front < 30 ||
+time1[T1] > 2500)
+{
+motor[motorA] = 15;
+motor[motorB] = 15;
+}
+}
+else
+{
+motor[motorA] = 20;
+motor[motorB] = 20;
+}
+}
 }
 
 */
