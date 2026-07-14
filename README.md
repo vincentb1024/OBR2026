@@ -16,7 +16,7 @@ Current status of basic arena functions:
 - [x] Gap Handling
 - [x] Obstacle Handling
 - [x] Red Line detection
-- [] Rescue Room traversing - Failed (Not working)
+- [ ] Rescue Room traversing - Failed (Not working)
 
 ### Regional Stage - Ended (2nd Place)
 
