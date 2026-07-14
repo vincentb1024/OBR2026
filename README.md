@@ -1,6 +1,6 @@
 # OBR2026 - Os Caras Team
 
-Welcome to the official repository of the **Os Caras** team. This project was developed for OBR2026, focusing on rescue line category.
+Welcome to the official repository of the **Os Caras** team. This project was developed for OBR2026, focusing on the Rescue Line category.
 
 ---
 
@@ -11,25 +11,25 @@ Welcome to the official repository of the **Os Caras** team. This project was de
 Current status of basic arena functions:
 
 - [x] Basic robot structure
-- [x] Follow Line
-- [x] Crossroads / Green Handling
+- [x] Line following
+- [x] Intersections / Green Handling
 - [x] Gap Handling
 - [x] Obstacle Handling
 - [x] Red Line detection
-- [ ] Rescue Room traversing - Failed (Not working)
+- [ ] Rescue Room navigating - Incomplete
 
-### Regional Stage - Ended (2nd Place)
+### Regional Stage - Ended 
 
 - [x] Semi-automatic color calibration _(All credits to Giovani G.)_
-- [X] Rescue Room traversing (still bad)
+- [x] Rescue Room navigating - Incomplete
 
 ### State Stage
 
 - [ ] Ball catching system - WIP
-- [X] EV3 - Arduino integration
+- [x] EV3 - Arduino integration
 - [ ] Robot modeling
 - [ ] Ball sorting system - WIP
-- [ ] Better rescue room traversion - WIP
+- [ ] Better rescue room navigation - WIP
 
 ### National Stage
 
@@ -42,10 +42,15 @@ Current status of basic arena functions:
 ### Contacts:
   If you have any questions, feel free to contact us on oscaras.robotics@gmail.com
 
+### Competition Results
+
+- Regional Stage – 🥈 Second Place
+- State Stage – Awaiting official qualification
+- 
 ## License & Intellectual Property
 
-This project and all its contents—including code, mechanical designs, and documentation—are the intellectual property of **Os Caras Team**.
+Copyright © 2026 Os Caras Team. All rights reserved.
 
-All rights reserved. Unauthorized copying, distribution, or modification of this work without explicit permission from the team members is strictly prohibited.
+This repository is provided for educational and showcase purposes only. No part of this project, including source code, mechanical designs, or documentation, may be copied, redistributed, or modified without prior written permission from the Os Caras Team.
 
 ---
