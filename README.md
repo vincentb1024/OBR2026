@@ -1,25 +1,12 @@
-# 🤖 OBR2026 - Os Caras Team
+# OBR2026 - Os Caras Team
 
-Welcome to the official repository of the **Os Caras** team. This project was developed for OBR2026, focusing on creating an autonomous robot capable of line following, obstacle avoidance, and arena rescue.
-
----
-
-## 👥 The Team
-
-Meet the team members and their respective roles in the project:
-
-- **Vincent B.** — _Team Leader & Main Developer_
-- **Giovani G.** — _Vice Leader & Main Developer_
-- **Gustavo W.** — _Main Mechanic_
-- **Rafael M.** — _Mechanic_
+Welcome to the official repository of the **Os Caras** team. This project was developed for OBR2026, focusing on rescue line category.
 
 ---
 
-## 🎯 Development Roadmap
+## Development Roadmap
 
-Our progress is divided into competitive stages, ensuring the robot evolves consistently through each phase.
-
-### 🏁 Selective Stage
+###  Selective Stage - Ended 
 
 Current status of basic arena functions:
 
@@ -29,25 +16,22 @@ Current status of basic arena functions:
 - [x] Gap Handling
 - [x] Obstacle Handling
 - [x] Red Line detection
-- [🔄] Rescue Room traversing - WIP (2.0 failed)
+- [] Rescue Room traversing - Failed (Not working)
 
-### 🏆 Regional Stage
-
-Focus on sensor optimization and consistency:
+### Regional Stage - Ended (2nd Place)
 
 - [x] Semi-automatic color calibration _(All credits to Giovani G.)_
+- [X] Rescue Room traversing (still bad)
 
-### 🏅 State Stage
+### State Stage
 
-Focus on mechanics and rescue logic in the main arena:
+- [ ] Ball catching system - WIP
+- [X] EV3 - Arduino integration
+- [ ] Robot modeling
+- [ ] Ball sorting system - WIP
+- [ ] Better rescue room traversion - WIP
 
-- [ ] Ball catching system
-- [ ] Ball sorting system
-- [ ] Better rescue room traversion
-
-### 🇧🇷 National Stage
-
-Focus on advanced engineering, code architecture, and performance:
+### National Stage
 
 - [ ] Modular code
 - [ ] Modular robot structure
@@ -55,15 +39,10 @@ Focus on advanced engineering, code architecture, and performance:
 
 ---
 
-## 🛠️ Technologies and Components
+### Contacts:
+  If you have any questions, feel free to contact us on oscaras.robotics@gmail.com
 
-- **Language:** ROBOTC
-- **Microcontroller:** Lego Mindstorms EV3
-- **Sensors:** Color sensors (x2), Ultrassonic sensors (x2)
-
----
-
-## 📜 License & Intellectual Property
+## License & Intellectual Property
 
 This project and all its contents—including code, mechanical designs, and documentation—are the intellectual property of **Os Caras Team**.
 
