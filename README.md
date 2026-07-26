@@ -46,7 +46,7 @@ Current status of basic arena functions:
 
 - Regional Stage – 🥈 Second Place
 - State Stage – Awaiting official qualification
-- 
+
 ## License & Intellectual Property
 
 Copyright © 2026 Os Caras Team. All rights reserved.
