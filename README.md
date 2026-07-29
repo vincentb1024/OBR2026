@@ -16,7 +16,7 @@ Current status of basic arena functions:
 - [x] Gap Handling
 - [x] Obstacle Handling
 - [x] Red Line detection
-- [ ] Rescue Room navigating - Incomplete
+- [X] Rescue Room navigating - Incomplete
 
 ### Regional Stage - Ended 
 
@@ -25,11 +25,13 @@ Current status of basic arena functions:
 
 ### State Stage
 
-- [ ] Ball catching system - WIP
+- [ ] Stuck detection
+- [ ] Line finding on rescue exit
+- [ ] Ball catching system 
 - [x] EV3 - Arduino integration
 - [ ] Robot modeling
-- [ ] Ball sorting system - WIP
-- [ ] Better rescue room navigation - WIP
+- [ ] Ball sorting system 
+- [ ] Better rescue room navigation 
 
 ### National Stage
 
