@@ -1,4 +1,11 @@
-int r1, g1, b1, r2, g2, b2, hue1, hue2;
+typedef struct
+{
+	byte red;
+	byte green;
+	byte blue;
+	short hue;
+} csensor;
+csensor cs1, cs2;
 float distance_front, distance_left;
 bool black_detected = false;
 int white1 = 114;
@@ -29,13 +36,25 @@ int hue2_red = 5;
 
 int margin = 10;
 int margin_hue = 15;
-
 void stop_motors()
 {
 	motor[motorA] = 0;
 	motor[motorB] = 0;
 }
-
+time delta;
+int rot;
+void checkmstatus(motor cmot)
+{
+	if(getMotorEncoder(cmot)!=rot)
+	{
+		rot = getMotorEncoder(cmot);
+		delta=0;
+	}
+	if(delta>1000)
+	{
+		stuck();
+	}
+}
 void turn(int degrees, int speed_B, int speed_A)
 {
 	moveMotorTarget(motorA, degrees, speed_A);
@@ -73,7 +92,6 @@ void follow_line()
 	if(power_A < -100) power_A = -100;
 	if(power_B > 100) power_B = 100;
 	if(power_B < -100) power_B = -100;
-
 	motor[motorA] = power_A;
 	motor[motorB] = power_B;
 
@@ -279,10 +297,10 @@ task refresh_sensors()
 {
 	while(true)
 	{
-		getColorRGB(S1, r1, g1, b1);
-		getColorRGB(S2, r2, g2, b2);
-		hue1 = getColorHue(S1);
-		hue2 = getColorHue(S2);
+		getColorRGB(S1, cs1.blue, cs1.green, cs1.blue);
+		getColorRGB(S2, cs2.red, cs2.green, cs2.blue);
+		cs1.hue = getColorHue(S1);
+		cs2.hue = getColorHue(S2);
 		distance_front = getUSDistance(S3);
 		distance_left = getUSDistance(S4);
 		delay(3);
