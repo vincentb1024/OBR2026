@@ -4,12 +4,25 @@ typedef struct
 	byte green;
 	byte blue;
 	short hue;
+	byte value;
+}targetc;
+typedef struct
+{
+	byte red;
+	byte green;
+	byte blue;
+	short hue;
+	targetc twhite;
+	targetc tblack;
+	targetc tsilver;
+	targetc tgreen;
+	targetc tred;
 } csensor;
 csensor cs1, cs2;
 float distance_front, distance_left;
 bool black_detected = false;
-int white1 = 114;
-int black1 = 11;
+int cs1.twhite.value = 114;
+int cs1.tblack.value = 11;
 int white2 = 109;
 int black2 = 14;
 
@@ -18,17 +31,17 @@ float kd = 0.3;
 float last_error;
 int i1, i2, error;
 
-int r1_green = 13;
-int g1_green = 30;
-int hue1_green = 115;
+int cs1.tgreen.red = 13;
+int cs1.tgreen.green = 30;
+int cs1.tgreen.hue = 115;
 
-int r2_green = 11;
+int cs2.tred.green   = 11;
 int g2_green = 40;
 int hue2_green = 121;
 
-int r1_red = 75;
-int g1_red = 12;
-int hue1_red = 11;
+int cs1.tred.red = 75;
+int cs1.tred.green = 12;
+int cs1.tred.hue = 11;
 
 int r2_red = 98;
 int g2_red = 11;
@@ -73,8 +86,8 @@ void move_forward(int degrees, int speed)
 
 void follow_line()
 {
-	i1 = 100 * (r1 - black1) / (white1 - black1);
-	i2 = 100 * (r2 - black2) / (white2 - black2);
+	i1 = 100 * (cs1.red - cs1.tblack.value) / (cs1.twhite.value - cs1.tblack.value);
+	i2 = 100 * (cs2.red - black2) / (white2 - black2);
 
 	error = i1 - i2;
 
@@ -100,16 +113,16 @@ void follow_line()
 
 bool detect_green_right()
 {
-	return (r1 >= r1_green - margin && r1 <= r1_green + margin &&
-	g1 >= g1_green - margin && g1 <= g1_green + margin &&
-	hue1 >= hue1_green - margin_hue && hue1 <= hue1_green + margin_hue);
+	return (cs1.red >= cs1.tgreen.red - margin && cs1.red <= cs1.tgreen.red + margin &&
+	cs1.green >= cs1.tgreen.green - margin && cs1.green <= cs1.tgreen.green + margin &&
+	cs1.hue >= cs1.tgreen.hue - margin_hue && cs1.hue <= cs1.tgreen.hue + margin_hue);
 }
 
 bool detect_green_left()
 {
-	return (r2 >= r2_green - margin && r2 <= r2_green + margin &&
-	g2 >= g2_green - margin && g2 <= g2_green + margin &&
-	hue2 >= hue2_green - margin_hue && hue2 <= hue2_green + margin_hue);
+	return (cs2.red >= r2_green - margin && cs2.red <= r2_green + margin &&
+	cs2.green >= g2_green - margin && cs2.green <= g2_green + margin &&
+	cs2.hue >= hue2_green - margin_hue && cs2.hue <= hue2_green + margin_hue);
 }
 
 bool detect_silver_right()
@@ -124,9 +137,9 @@ bool detect_silver_left()
 
 bool detect_red_right()
 {
-	return (r1 >= r1_red - margin && r1 <= r1_red + margin &&
-	g1 >= g1_red - margin && g1 <= g1_red + margin &&
-	hue1 >= hue1_red - margin_hue && hue1 <= hue1_red + margin_hue);
+	return (r1 >= cs1.tred.red - margin && r1 <= cs1.tred.red + margin &&
+	g1 >= cs1.tred.green - margin && g1 <= cs1.tred.green + margin &&
+	hue1 >= cs1.tred.hue - margin_hue && hue1 <= cs1.tred.hue + margin_hue);
 }
 
 bool detect_red_left()
@@ -138,7 +151,7 @@ bool detect_red_left()
 
 bool detect_black_right()
 {
-	return (r1 <= black1 + margin);
+	return (r1 <= cs1.tblack.value + margin);
 }
 
 bool detect_black_left()
