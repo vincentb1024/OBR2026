@@ -5,8 +5,12 @@ int hue1, hue2;
 int max_r1 = 0, min_r1 = 255, max_g1 = 0, min_g1 = 255, max_b1 = 0, min_b1 = 255, max_hue1 = 0, min_hue1 = 255;
 int max_r2 = 0, min_r2 = 255, max_g2 = 0, min_g2 = 255, max_b2 = 0, min_b2 = 255, max_hue2 = 0, min_hue2 = 255;
 int distance_front, distance_left;
-
+vector 
 task main()
+{
+    
+}
+/*task main()
 {
     while(true)
     {
