@@ -47,7 +47,7 @@ Current status of basic arena functions:
 ### Competition Results
 
 - Regional Stage – 🥈 Second Place
-- State Stage – Awaiting official qualification
+- State Stage – Qualified
 
 ## License & Intellectual Property
 
