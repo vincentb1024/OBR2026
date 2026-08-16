@@ -1,0 +1,6 @@
+BRICK        ----        ARDUINO
+
+Amarelo(SCL)             LARANJA (porta analogica A5)
+Azul(SDA)                AZUL (porta analogica A4)
+VERMELHO(GND)            PRETO (GND)
+VERDE +5V                VERMELHO (SEM USO)
