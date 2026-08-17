@@ -1,41 +1,73 @@
-int r1, g1, b1, r2, g2, b2, hue1, hue2;
+typedef struct
+{
+	byte red;
+	byte green;
+	byte blue;
+	short hue;
+	byte value;
+}targetc;
+typedef struct
+{
+	byte red;
+	byte green;
+	byte blue;
+	short hue;
+	targetc twhite;
+	targetc tblack;
+	targetc tsilver;
+	targetc tgreen;
+	targetc tred;
+} csensor;
+csensor cs1, cs2;
 float distance_front, distance_left;
 bool black_detected = false;
-int white1 = 114;
-int black1 = 11;
-int white2 = 109;
-int black2 = 14;
+int cs1.twhite.value = 114;
+int cs1.tblack.value = 11;
+int cs2.twhite.value = 109;
+int cs2.tblack.value = 14;
 
 float kp = 0.8;
 float kd = 0.3;
 float last_error;
 int i1, i2, error;
 
-int r1_green = 13;
-int g1_green = 30;
-int hue1_green = 115;
+int cs1.tgreen.red = 13;
+int cs1.tgreen.green = 30;
+int cs1.tgreen.hue = 115;
 
-int r2_green = 11;
-int g2_green = 40;
-int hue2_green = 121;
+int cs2.tred.green   = 11;
+int cs2.tgreen.green = 40;
+int cs2.tgreen.hue = 121;
 
-int r1_red = 75;
-int g1_red = 12;
-int hue1_red = 11;
+int cs1.tred.red = 75;
+int cs1.tred.green = 12;
+int cs1.tred.hue = 11;
 
-int r2_red = 98;
-int g2_red = 11;
-int hue2_red = 5;
+int cs2.tred.red = 98;
+int cs2.tred.green = 11;
+int cs2.tred.hue = 5;
 
 int margin = 10;
 int margin_hue = 15;
-
 void stop_motors()
 {
 	motor[motorA] = 0;
 	motor[motorB] = 0;
 }
-
+time delta;
+int rot;
+void checkmstatus(motor cmot)
+{
+	if(getMotorEncoder(cmot)!=rot)
+	{
+		rot = getMotorEncoder(cmot);
+		delta=0;
+	}
+	if(delta>1000)
+	{
+		stuck();
+	}
+}
 void turn(int degrees, int speed_B, int speed_A)
 {
 	moveMotorTarget(motorA, degrees, speed_A);
@@ -54,8 +86,8 @@ void move_forward(int degrees, int speed)
 
 void follow_line()
 {
-	i1 = 100 * (r1 - black1) / (white1 - black1);
-	i2 = 100 * (r2 - black2) / (white2 - black2);
+	i1 = 100 * (cs1.red - cs1.tblack.value) / (cs1.twhite.value - cs1.tblack.value);
+	i2 = 100 * (cs2.red - cs2.tblack.value) / (cs2.twhite.value - cs2.tblack.value);
 
 	error = i1 - i2;
 
@@ -73,7 +105,6 @@ void follow_line()
 	if(power_A < -100) power_A = -100;
 	if(power_B > 100) power_B = 100;
 	if(power_B < -100) power_B = -100;
-
 	motor[motorA] = power_A;
 	motor[motorB] = power_B;
 
@@ -82,50 +113,50 @@ void follow_line()
 
 bool detect_green_right()
 {
-	return (r1 >= r1_green - margin && r1 <= r1_green + margin &&
-	g1 >= g1_green - margin && g1 <= g1_green + margin &&
-	hue1 >= hue1_green - margin_hue && hue1 <= hue1_green + margin_hue);
+	return (cs1.red >= cs1.tgreen.red - margin && cs1.red <= cs1.tgreen.red + margin &&
+	cs1.green >= cs1.tgreen.green - margin && cs1.green <= cs1.tgreen.green + margin &&
+	cs1.hue >= cs1.tgreen.hue - margin_hue && cs1.hue <= cs1.tgreen.hue + margin_hue);
 }
 
 bool detect_green_left()
 {
-	return (r2 >= r2_green - margin && r2 <= r2_green + margin &&
-	g2 >= g2_green - margin && g2 <= g2_green + margin &&
-	hue2 >= hue2_green - margin_hue && hue2 <= hue2_green + margin_hue);
+	return (cs2.red >= cs2.tgreen.red - margin && cs2.red <= cs2.tgreen.red + margin &&
+	cs2.green >= cs2.tgreen.green - margin && cs2.green <= cs2.tgreen.green + margin &&
+	cs2.hue >= cs2.tgreen.hue - margin_hue && cs2.hue <= cs2.tgreen.hue + margin_hue);
 }
 
 bool detect_silver_right()
 {
-	return ((r1 + g1 + b1) / 3) >= 110;
+	return ((cs2.blue + cs1.green + cs1.blue) / 3) >= 110;
 }
 
 bool detect_silver_left()
 {
-	return ((r2 + g2 + b2) / 3) >= 110;
+	return ((cs2.red + cs2.green + cs2.blue) / 3) >= 110;
 }
 
 bool detect_red_right()
 {
-	return (r1 >= r1_red - margin && r1 <= r1_red + margin &&
-	g1 >= g1_red - margin && g1 <= g1_red + margin &&
-	hue1 >= hue1_red - margin_hue && hue1 <= hue1_red + margin_hue);
+	return (cs1.red >= cs1.tred.red - margin && cs1.red <= cs1.tred.red + margin &&
+	cs1.green >= cs1.tred.green - margin && cs1.green <= cs1.tred.green + margin &&
+	cs1.hue >= cs1.tred.hue - margin_hue && cs1.hue <= cs1.tred.hue + margin_hue);
 }
 
 bool detect_red_left()
 {
-	return (r2 >= r2_red - margin && r2 <= r2_red + margin &&
-	g2 >= g2_red - margin && g2 <= g2_red + margin &&
-	hue2 >= hue2_red - margin_hue && hue2 <= hue2_red + margin_hue);
+	return (cs2.red >= cs2.tred.red - margin && cs2.red <= cs2.tred.red + margin &&
+	cs2.green >= cs2.tred.green - margin && cs2.green <= cs2.tred.green + margin &&
+	cs2.hue >= cs2.tred.hue - margin_hue && cs2.hue <= cs2.tred.hue + margin_hue);
 }
 
 bool detect_black_right()
 {
-	return (r1 <= black1 + margin);
+	return (cs1.red <= cs1.tblack.value + margin);
 }
 
 bool detect_black_left()
 {
-	return (r2 <= black2 + margin);
+	return (cs2.red <= cs2.tblack.value + margin);
 }
 
 void avoid_obstacle()
@@ -279,10 +310,10 @@ task refresh_sensors()
 {
 	while(true)
 	{
-		getColorRGB(S1, r1, g1, b1);
-		getColorRGB(S2, r2, g2, b2);
-		hue1 = getColorHue(S1);
-		hue2 = getColorHue(S2);
+		getColorRGB(S1, cs1.blue, cs1.green, cs1.blue);
+		getColorRGB(S2, cs2.red, cs2.green, cs2.blue);
+		cs1.hue = getColorHue(S1);
+		cs2.hue = getColorHue(S2);
 		distance_front = getUSDistance(S3);
 		distance_left = getUSDistance(S4);
 		delay(3);
@@ -345,7 +376,7 @@ task main()
 				else
 				{
 					move_forward(85, 10);
-					if(r1 >= 88 && r2 >= 88)
+					if(cs1.red >= 88 && cs2.red >= 88)
 					{
 						move_forward(105, -10);
 						turn(75, 10, -10);
@@ -381,7 +412,7 @@ task main()
 				else
 				{
 					move_forward(85, 10);
-					if(r1 >= 88 && r2 >= 88)
+					if(cs1.red >= 88 && cs2.red >= 88)
 					{
 						move_forward(105, -10);
 						turn(75, -10, 10);
