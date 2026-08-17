@@ -25,7 +25,7 @@ Current status of basic arena functions:
 
 ### State Stage
 
-- [ ] Stuck detection
+- [x] Stuck detection
 - [ ] Line finding on rescue exit
 - [ ] Ball catching system 
 - [x] EV3 - Arduino integration
