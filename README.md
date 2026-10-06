@@ -4,7 +4,7 @@ Welcome to the official repository of the **Os Caras** team. This project was de
 
 ---
 
-## Development Roadmap
+## Development Roadmap - Ended
 
 ###  Selective Stage - Ended 
 
@@ -48,6 +48,7 @@ Current status of basic arena functions:
 
 - Regional Stage – 🥈 Second Place
 - State Stage – Qualified
+- National Stage - Sadly we weren't qualified
 
 ## License & Intellectual Property
 
