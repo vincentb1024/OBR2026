@@ -1,0 +1,6 @@
+BRICK        ----        ARDUINO
+
+YELLOW(SCL)             ORANGE (Analog A5)
+BLUE(SDA)                BLUE (Analog A4)
+RED(GND)                 BLACK (GND)
+GREEN +5V                RED (NOT USED)
