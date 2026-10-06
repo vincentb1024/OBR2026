@@ -1,7 +1,6 @@
 # OBR2026 - Os Caras Team
 
 Welcome to the official repository of the **Os Caras** team. This project was developed for OBR2026, focusing on the Rescue Line category.
-
 ---
 
 ## Development Roadmap - Ended
@@ -20,7 +19,7 @@ Current status of basic arena functions:
 
 ### Regional Stage - Ended 
 
-- [x] Semi-automatic color calibration _(All credits to Giovani G.)_
+- [x] Semi-automatic color calibration _(All credits to jkNighttt)_
 - [x] Rescue Room navigating - Incomplete
 
 ### State Stage
@@ -51,7 +50,7 @@ Current status of basic arena functions:
 - National Stage - Sadly we weren't qualified
 
 ## License & Intellectual Property
-
+The library that we use for Arduino - EV3 communication is here: https://github.com/Rodk006/ArduinoEV3_lib
 Copyright © 2026 Os Caras Team. All rights reserved.
 
 This repository is provided for educational and showcase purposes only. No part of this project, including source code, mechanical designs, or documentation, may be copied, redistributed, or modified without prior written permission from the Os Caras Team.
